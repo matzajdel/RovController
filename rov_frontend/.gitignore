@@ -1,0 +1,31 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub/
+build/
+coverage/
+
+# Generated platform folders (minimal repo)
+android/
+ios/
+web/
+windows/
+macos/
+linux/
+
+# Flutter tooling
+.metadata
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Obfuscation mapping
+app.*.map.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Platform secrets (in case someone un-ignores platforms locally)
+**/*.keystore
+**/*.jks
