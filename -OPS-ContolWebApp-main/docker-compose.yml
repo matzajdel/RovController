@@ -1,0 +1,58 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: ops-controlwebapp-backend:latest
+    container_name: ops-controlwebapp-backend
+    ports:
+      - "2137:2137"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 2137
+      ROS_DOMAIN_ID: 0
+    volumes:
+      - ./backend/data:/app/backend/data
+      - ./backend/logs:/app/backend/logs
+    restart: unless-stopped
+
+  rosbridge:
+    image: ops-controlwebapp-backend:latest
+    container_name: ops-controlwebapp-rosbridge
+    depends_on:
+      - backend
+    command: ["bash", "-lc", "source /opt/ros/humble/setup.bash && ros2 launch rosbridge_server rosbridge_websocket_launch.xml address:=0.0.0.0"]
+    environment:
+      ROS_DOMAIN_ID: 0
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  gps:
+    image: ops-controlwebapp-backend:latest
+    container_name: ops-controlwebapp-gps
+    depends_on:
+      - backend
+    command: ["bash", "-lc", "source /opt/ros/humble/setup.bash && python3 services/gps_tracker.py"]
+    environment:
+      ROS_DOMAIN_ID: 0
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend/data:/app/backend/data
+      - ./backend/logs:/app/backend/logs
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: ops-controlwebapp-frontend:latest
+    container_name: ops-controlwebapp-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+      - rosbridge
+      - gps
+    restart: unless-stopped

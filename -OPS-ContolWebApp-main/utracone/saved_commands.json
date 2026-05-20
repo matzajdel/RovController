@@ -1,0 +1,116 @@
+{
+  "/array_topic": [
+    {
+      "name": "ddefault",
+      "value": [
+        0,
+        2,
+        3,
+        0.04,
+        20,
+        0.05
+      ],
+      "type": "std_msgs/msg/Float32MultiArray",
+      "isDefault": false,
+      "labels": [
+        "Val 0",
+        "Val 1",
+        "Val 2",
+        "Val 3",
+        "Val 4",
+        "Val 5"
+      ]
+    },
+    {
+      "name": "lala",
+      "value": [
+        33,
+        2,
+        1.03,
+        0.04,
+        20,
+        0.05
+      ],
+      "type": "std_msgs/msg/Float32MultiArray",
+      "isDefault": false,
+      "labels": [
+        "Val 0",
+        "Val 1",
+        "Val 2",
+        "Val 3",
+        "Val 4",
+        "Val 5"
+      ]
+    },
+    {
+      "name": "default",
+      "value": [
+        3,
+        3,
+        31.03,
+        2,
+        120,
+        0.05
+      ],
+      "type": "std_msgs/msg/Float32MultiArray",
+      "isDefault": true,
+      "labels": [
+        "Val 0",
+        "Val 1",
+        "Val 2",
+        "Val 3",
+        "Val 4",
+        "Val 5"
+      ]
+    }
+  ],
+  "/cmd_vel_nav": [
+    {
+      "name": "test",
+      "value": {
+        "linear_x": 0.01,
+        "linear_y": 0,
+        "linear_z": 0,
+        "angular_x": 0.01,
+        "angular_y": 0,
+        "angular_z": 0.01
+      },
+      "type": "geometry_msgs/msg/Twist",
+      "isDefault": false
+    },
+    {
+      "name": "Default",
+      "value": {
+        "linear_x": 2,
+        "linear_y": 4,
+        "linear_z": 5,
+        "angular_x": 2,
+        "angular_y": -3,
+        "angular_z": 2
+      },
+      "type": "geometry_msgs/msg/Twist",
+      "isDefault": true,
+      "labels": []
+    }
+  ],
+  "/rosout": [
+    {
+      "name": "loo",
+      "value": "lolo",
+      "type": "rcl_interfaces/msg/Log"
+    }
+  ],
+  "/ESP32_GIZ/led_state_topic": [
+    {
+      "name": "Default",
+      "value": [
+        0,
+        0,
+        0
+      ],
+      "type": "std_msgs/msg/Int32MultiArray",
+      "isDefault": true,
+      "labels": []
+    }
+  ]
+}

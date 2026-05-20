@@ -1,0 +1,38 @@
+# System CLI dependencies for OPS backend (non-Python)
+#
+# Install on backend host (Ubuntu/Debian example):
+#   sudo apt update
+#   sudo apt install -y \
+#     openssh-client sshpass screen bluez v4l-utils \
+#     gstreamer1.0-tools gstreamer1.0-plugins-base \
+#     gstreamer1.0-plugins-good gstreamer1.0-plugins-bad \
+#     gstreamer1.0-plugins-ugly gstreamer1.0-libav \
+#     procps curl
+#
+# Notes:
+# - `mjpg_streamer` is also required for legacy MJPEG camera flows.
+#   Depending on distro it may be available as package `mjpg-streamer` or
+#   may need to be built from source.
+# - Some commands must also exist on the remote robot host used over SSH.
+
+# Core remote-access and process tools
+openssh-client
+sshpass
+screen
+procps
+
+# Bluetooth command-line tooling (`bluetoothctl`)
+bluez
+
+# Video device inspection and streaming
+v4l-utils
+gstreamer1.0-tools
+gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
+gstreamer1.0-plugins-bad
+gstreamer1.0-plugins-ugly
+gstreamer1.0-libav
+mjpg-streamer
+
+# Utilities used by test/helper scripts
+curl

@@ -1,0 +1,18 @@
+[Unit]
+Description=OPS Control WebApp Service (Python Backend + React Frontend)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/legendary/Desktop/-OPS-ContolWebApp/start_service.sh both
+Restart=on-failure
+RestartSec=5
+User=legendary
+WorkingDirectory=/home/legendary/Desktop/-OPS-ContolWebApp
+Environment=NODE_ENV=production
+Environment=ROS_DOMAIN_ID=0
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,7 @@
+One-command offline start (after transferring bundle):
+
+tar -xzf offline-bundle.tar.gz && ./offline-bundle/run_offline.sh
+
+How to build the bundle on source machine:
+
+./export_offline_bundle.sh

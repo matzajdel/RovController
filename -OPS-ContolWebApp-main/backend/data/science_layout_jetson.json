@@ -1,0 +1,812 @@
+{
+  "groups": [
+    {
+      "id": "3h3xnjz94",
+      "label": "Jazda",
+      "buttons": [
+        {
+          "id": "yr9j7kd62",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C1-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "ghwftq7bz",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "bj9lczcp0",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C1-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "ghwftq7bz",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "wz8pzl3y1",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C2-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "9i1wl3nhp",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "8nqussbrn",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C2-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "9i1wl3nhp",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "8jxeq7108",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C10-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "cfs4to280",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "ccd2o3a4n",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C10-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "cfs4to280",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "nl1bz54cy",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C11-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "gc6n8o6z2",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "e6ogiqvpf",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C11-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "gc6n8o6z2",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "sv3a9952g",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C12-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "gjgex2dd6",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "0fwrej1g2",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C12-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "gjgex2dd6",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        }
+      ],
+      "gridRow": 1,
+      "gridCol": 1,
+      "gridColSpan": 4,
+      "subgroups": [
+        {
+          "id": "ghwftq7bz",
+          "name": "C1"
+        },
+        {
+          "id": "fwtec9jmi",
+          "name": "C1"
+        },
+        {
+          "id": "9i1wl3nhp",
+          "name": "C2"
+        },
+        {
+          "id": "cfs4to280",
+          "name": "C10"
+        },
+        {
+          "id": "gc6n8o6z2",
+          "name": "C11"
+        },
+        {
+          "id": "gjgex2dd6",
+          "name": "C12"
+        }
+      ]
+    },
+    {
+      "id": "9m4g6m33p",
+      "label": "POWER",
+      "buttons": [
+        {
+          "id": "i29sae13k",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C9-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "027konaoy",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "8ipzuzqgj",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C9-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "027konaoy",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "uf10yu4fl",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C8-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "t0kof25rg",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "hmpizdze8",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C8-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "t0kof25rg",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "zs6evahl5",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C7-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "eo9apjb8c",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "fy60qv870",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C7-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "eo9apjb8c",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "wdo73rzfw",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C6-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "8bvhq81qi",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "1iycj8pk5",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C6-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "8bvhq81qi",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "4fs5a0kd5",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C5-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "n3clfbqmk",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "9r542a5fe",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C5-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "n3clfbqmk",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "kp8hol8ww",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C4-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "de6y1cpco",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "92y1xpb9j",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C4-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "de6y1cpco",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "f7c64lk6d",
+          "label": "ON",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C3-ON",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "vf3ur9f82",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "b8de0l4lo",
+          "label": "OFF",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "C3-OFF",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "vf3ur9f82",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "nx9xfhhe2",
+          "label": "On",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "s7n031nc8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": true,
+          "macroSteps": [
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C1-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C2-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C3-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C4-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C5-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C6-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C7-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C8-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C9-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C10-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C11-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C12-ON"
+            }
+          ]
+        },
+        {
+          "id": "bjwwynsnp",
+          "label": "Off",
+          "topic": "/string_topic",
+          "type": "std_msgs/msg/String",
+          "values": "",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "s7n031nc8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": true,
+          "macroSteps": [
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C1-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C2-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C3-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C4-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C5-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C6-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C7-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C8-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C9-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C10-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C11-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C12-OFF"
+            }
+          ]
+        },
+        {
+          "id": "5hdxt1f4k",
+          "label": "ON",
+          "topic": null,
+          "type": "",
+          "values": "",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "kw5u1z9v8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": true,
+          "macroSteps": [
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C1-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C2-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C10-ON"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C11-ON"
+            }
+          ]
+        },
+        {
+          "id": "fkz2kxkc8",
+          "label": "OFF",
+          "topic": null,
+          "type": "",
+          "values": "",
+          "activeIndices": [],
+          "array_length": 0,
+          "subgroupId": "kw5u1z9v8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": true,
+          "macroSteps": [
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C1-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C2-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C10-OFF"
+            },
+            {
+              "action": "wait_time",
+              "topic": "",
+              "value": "",
+              "delay": 0.2
+            },
+            {
+              "action": "publish",
+              "topic": "/string_topic",
+              "value": "C11-OFF"
+            }
+          ]
+        }
+      ],
+      "gridRow": 2,
+      "gridCol": 1,
+      "gridColSpan": 4,
+      "subgroups": [
+        {
+          "id": "027konaoy",
+          "name": "C9"
+        },
+        {
+          "id": "t0kof25rg",
+          "name": "C8"
+        },
+        {
+          "id": "eo9apjb8c",
+          "name": "C7"
+        },
+        {
+          "id": "8bvhq81qi",
+          "name": "C6"
+        },
+        {
+          "id": "n3clfbqmk",
+          "name": "C5"
+        },
+        {
+          "id": "de6y1cpco",
+          "name": "C4"
+        },
+        {
+          "id": "vf3ur9f82",
+          "name": "C3"
+        },
+        {
+          "id": "s7n031nc8",
+          "name": "All"
+        },
+        {
+          "id": "kw5u1z9v8",
+          "name": "Jazda"
+        }
+      ]
+    }
+  ],
+  "gridColumns": 4,
+  "maxWidth": 1200
+}

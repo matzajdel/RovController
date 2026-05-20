@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "id": "gkk0732s8",
+      "label": "dada",
+      "buttons": [
+        {
+          "id": "4fx7cs3d2",
+          "label": "dada",
+          "topic": "/ESP32_GIZ/led_state_topic",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {},
+          "activeIndices": [],
+          "array_length": 3
+        }
+      ]
+    },
+    {
+      "id": "7s2laeore",
+      "label": "rarara",
+      "buttons": [
+        {
+          "id": "u9sasc362",
+          "label": "dadadasda",
+          "topic": "/array_topic",
+          "type": "std_msgs/msg/Float32MultiArray",
+          "values": {},
+          "activeIndices": [],
+          "array_length": 6
+        }
+      ]
+    }
+  ]
+}

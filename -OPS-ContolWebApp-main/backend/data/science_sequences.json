@@ -1,0 +1,79 @@
+[
+  {
+    "id": "7b302bd3-7e72-4113-8d98-47eb263144d7",
+    "name": "Science-Dociskanie",
+    "steps": [
+      {
+        "type": "publish",
+        "topic": "/science/stepper_commands",
+        "value": [
+          1,
+          5000000,
+          0,
+          100
+        ],
+        "interval_s": 0,
+        "run_in_background": true
+      },
+      {
+        "type": "delay",
+        "seconds": 4
+      },
+      {
+        "type": "wait",
+        "topic": "/science/limit_switch",
+        "condition": "eq",
+        "value": true,
+        "timeout_s": 20
+      },
+      {
+        "type": "publish",
+        "topic": "/science/stepper_commands",
+        "value": [
+          1,
+          80,
+          0,
+          250
+        ],
+        "run_in_background": true
+      }
+    ]
+  },
+  {
+    "id": "b61628f7-e6e8-49a3-8343-468a0f44aec6",
+    "name": "Science-Lej",
+    "steps": [
+      {
+        "type": "publish",
+        "topic": "/science/stepper_commands",
+        "value": [
+          1,
+          5000000,
+          1,
+          100
+        ]
+      },
+      {
+        "type": "delay",
+        "seconds": 4
+      },
+      {
+        "type": "wait",
+        "topic": "/science/limit_switch",
+        "condition": "eq",
+        "value": true,
+        "timeout_s": 20
+      },
+      {
+        "type": "publish",
+        "topic": "/science/stepper_commands",
+        "value": [
+          1,
+          60,
+          1,
+          250
+        ]
+      }
+    ]
+  }
+]

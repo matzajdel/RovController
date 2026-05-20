@@ -1,0 +1,67 @@
+# ROS2 Control Configuration for Mars Rover Manipulator
+# Place this in: your_package/config/manipulator_controllers.yaml
+
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+    
+    # Joint State Broadcaster
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    # Joint Trajectory Controller for Manipulator
+    manipulator_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+# Joint State Broadcaster configuration
+joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - joint_base
+      - joint_shoulder
+      - joint_elbow
+      - joint_wrist_pitch
+      - joint_wrist_roll
+      - joint_gripper
+
+# Manipulator Controller configuration
+manipulator_controller:
+  ros__parameters:
+    joints:
+      - joint_base
+      - joint_shoulder
+      - joint_elbow
+      - joint_wrist_pitch
+      - joint_wrist_roll
+      - joint_gripper
+    
+    command_interfaces:
+      - position
+    
+    state_interfaces:
+      - position
+      - velocity
+    
+    # Constraints
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+      
+      joint_base:
+        trajectory: 0.05
+        goal: 0.02
+      joint_shoulder:
+        trajectory: 0.05
+        goal: 0.02
+      joint_elbow:
+        trajectory: 0.05
+        goal: 0.02
+      joint_wrist_pitch:
+        trajectory: 0.05
+        goal: 0.02
+      joint_wrist_roll:
+        trajectory: 0.05
+        goal: 0.02
+      joint_gripper:
+        trajectory: 0.02
+        goal: 0.01

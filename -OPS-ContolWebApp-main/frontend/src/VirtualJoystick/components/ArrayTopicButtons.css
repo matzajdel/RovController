@@ -1,0 +1,149 @@
+.topic-buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.topic-buttons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.buttons-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.button-with-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.topic-btn {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  min-width: 100px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.topic-btn.plus {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+}
+
+.topic-btn.plus:hover {
+  background: linear-gradient(135deg, #357abd 0%, #00c9db 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+}
+
+.topic-btn.plus:active {
+  background: linear-gradient(135deg, #2d6aa3 0%, #00b0c7 100%);
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(79, 172, 254, 0.5);
+}
+
+.topic-btn.minus {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.topic-btn.minus:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+.topic-btn.minus:active {
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(255, 107, 107, 0.5);
+}
+
+/* Podpisy stawów */
+.joint-label {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.2;
+}
+
+.joint-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.joint-description {
+  font-style: italic;
+  color: #888;
+  font-size: 11px;
+}
+
+/* Stan tablicy */
+.array-state {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .buttons-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .topic-btn {
+    padding: 10px 12px;
+    font-size: 12px;
+    min-height: 44px;
+    min-width: 80px;
+  }
+  
+  .joint-label {
+    font-size: 10px;
+  }
+  
+  .joint-description {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  
+  .topic-btn {
+    padding: 8px 10px;
+    font-size: 11px;
+    min-height: 40px;
+    min-width: 70px;
+  }
+}

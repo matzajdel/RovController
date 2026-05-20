@@ -1,0 +1,156 @@
+{
+<<<<<<< Updated upstream
+  "hash": "c4f7f9a4",
+  "browserHash": "d8692323",
+=======
+  "hash": "518fbee2",
+  "browserHash": "9fff34b1",
+>>>>>>> Stashed changes
+  "optimized": {
+    "react": {
+      "src": "../../react/index.js",
+      "file": "react.js",
+<<<<<<< Updated upstream
+      "fileHash": "1c7a6c94",
+=======
+      "fileHash": "18557bd5",
+>>>>>>> Stashed changes
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../react-dom/index.js",
+      "file": "react-dom.js",
+<<<<<<< Updated upstream
+      "fileHash": "cce32f7a",
+=======
+      "fileHash": "8b9977e7",
+>>>>>>> Stashed changes
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+<<<<<<< Updated upstream
+      "fileHash": "c602a18a",
+=======
+      "fileHash": "b4375660",
+>>>>>>> Stashed changes
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+<<<<<<< Updated upstream
+      "fileHash": "1a036d47",
+=======
+      "fileHash": "b8534543",
+      "needsInterop": true
+    },
+    "leaflet": {
+      "src": "../../leaflet/dist/leaflet-src.js",
+      "file": "leaflet.js",
+      "fileHash": "78c408b0",
+>>>>>>> Stashed changes
+      "needsInterop": true
+    },
+    "nipplejs": {
+      "src": "../../nipplejs/src/index.js",
+      "file": "nipplejs.js",
+<<<<<<< Updated upstream
+      "fileHash": "ba1d3af3",
+=======
+      "fileHash": "6cc088d7",
+>>>>>>> Stashed changes
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../react-dom/client.js",
+      "file": "react-dom_client.js",
+<<<<<<< Updated upstream
+      "fileHash": "a5ae4d11",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "3bbe6d83",
+=======
+      "fileHash": "d83625ea",
+      "needsInterop": true
+    },
+    "react-leaflet": {
+      "src": "../../react-leaflet/lib/index.js",
+      "file": "react-leaflet.js",
+      "fileHash": "ecd93a93",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "70b742ac",
+      "needsInterop": false
+    },
+    "@react-three/fiber": {
+      "src": "../../@react-three/fiber/dist/react-three-fiber.esm.js",
+      "file": "@react-three_fiber.js",
+      "fileHash": "2f60ea0e",
+      "needsInterop": false
+    },
+    "@react-three/drei": {
+      "src": "../../@react-three/drei/index.js",
+      "file": "@react-three_drei.js",
+      "fileHash": "54c10d9c",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "60ca0ed1",
+>>>>>>> Stashed changes
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-VRHMX22Y": {
+      "file": "chunk-VRHMX22Y.js"
+    },
+<<<<<<< Updated upstream
+    "chunk-2UC5YKPU": {
+      "file": "chunk-2UC5YKPU.js"
+    },
+    "chunk-UXIASGQL": {
+      "file": "chunk-UXIASGQL.js"
+=======
+    "vision_bundle-CNGINAOK": {
+      "file": "vision_bundle-CNGINAOK.js"
+    },
+    "chunk-5ZG2TNXH": {
+      "file": "chunk-5ZG2TNXH.js"
+    },
+    "chunk-TJIHV6MC": {
+      "file": "chunk-TJIHV6MC.js"
+    },
+    "chunk-UYR6KXTX": {
+      "file": "chunk-UYR6KXTX.js"
+    },
+    "chunk-SUH2Y6BX": {
+      "file": "chunk-SUH2Y6BX.js"
+    },
+    "chunk-LAV6FB6A": {
+      "file": "chunk-LAV6FB6A.js"
+    },
+    "chunk-TOXUORXJ": {
+      "file": "chunk-TOXUORXJ.js"
+    },
+    "chunk-K5YNGTCN": {
+      "file": "chunk-K5YNGTCN.js"
+    },
+    "chunk-HSIYEGEQ": {
+      "file": "chunk-HSIYEGEQ.js"
+    },
+    "chunk-ZC22LKFR": {
+      "file": "chunk-ZC22LKFR.js"
+>>>>>>> Stashed changes
+    }
+  }
+}

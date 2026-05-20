@@ -1,0 +1,55 @@
+.arrow-controls-container {
+  display: inline-block;
+  margin-top: 2rem;
+}
+
+.arrow-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.arrow-button {
+  width: 3.75rem;       
+  height: 3.75rem;
+  margin: 0.3125rem;     
+  background: #e9ecef;
+  color: black;
+  border: 0.0625rem solid #aaa;
+  border-radius: 0.3125rem;
+  font-size: 1.125rem;   
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.arrow-button.active {
+  background: #007bff;
+  color: white;
+}
+
+.arrow-pressed-info {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.arrow-pressed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.arrow-pressed-item {
+  color: #28a745;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .arrow-button {
+    width: 5.625rem;      
+    height: 5.625rem;
+    font-size: 1.6875rem;  
+  }
+}

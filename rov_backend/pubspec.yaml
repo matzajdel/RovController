@@ -1,0 +1,16 @@
+name: rov_backend
+description: A native Dart backend for controlling Mars Rover directly from Android over WiFi.
+version: 1.0.0
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  # Do obsługi połączeń WebSocket z rosbridge łazika
+  web_socket_channel: ^3.0.1
+  # Do łatwego operowania na ścieżkach bazy danych w pamięci telefonu
+  path: ^1.9.0
+
+dev_dependencies:
+  lints: ^3.0.0

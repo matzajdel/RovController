@@ -1,0 +1,124 @@
+.custom-topic-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.custom-topic-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.custom-topic-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.ct-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: #1e1e2e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 10px 14px;
+  min-width: 150px;
+}
+
+.ct-label {
+  font-weight: 700;
+  font-size: 14px;
+  color: #eee;
+}
+
+.ct-topic {
+  font-size: 10px;
+  color: #777;
+  font-family: monospace;
+}
+
+.ct-value {
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Button rows ───────────────────────────────────────── */
+.ct-btn-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.ct-extra-row {
+  margin-top: 2px;
+}
+
+/* ── Buttons ───────────────────────────────────────────── */
+.ct-btn {
+  padding: 6px 14px;
+  border: 2px solid #555;
+  border-radius: 6px;
+  background: #2a2a3c;
+  color: #ddd;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.ct-btn:hover {
+  background: #383850;
+}
+
+.ct-btn:active {
+  transform: scale(0.95);
+  background: #444460;
+}
+
+.ct-plus {
+  color: #6dff6d;
+}
+
+.ct-minus {
+  color: #ff6d6d;
+}
+
+.ct-dir {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-color: #666;
+}
+
+.ct-reset {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-color: #666;
+  color: #aaa;
+}
+
+.ct-set {
+  flex: 1;
+  text-align: center;
+}
+
+.ct-set.ct-active {
+  color: #fff;
+  font-weight: 700;
+}
+
+.ct-hold {
+  flex: 1;
+  text-align: center;
+}

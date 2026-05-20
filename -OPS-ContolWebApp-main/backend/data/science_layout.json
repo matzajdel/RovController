@@ -1,0 +1,466 @@
+{
+  "graphs": [
+    {
+      "id": "lcq5yy65l",
+      "topic": "/science/pt100_temperature",
+      "title": "Temperature",
+      "frequencyHz": 2,
+      "maxPoints": 360,
+      "labels": [
+        "Temperature"
+      ],
+      "height": 200,
+      "gridRow": 1,
+      "gridColSpan": 2
+    },
+    {
+      "id": "xdtu5fksl",
+      "topic": "/science/pt100_temperature",
+      "title": "/science/pt100_temperature",
+      "frequencyHz": 2,
+      "maxPoints": 1,
+      "labels": [
+        "temp"
+      ],
+      "height": 200,
+      "gridRow": 2,
+      "gridColSpan": 2
+    },
+    {
+      "id": "e1wffk4e3",
+      "topic": "/science/moisture_percent",
+      "title": "Moisture",
+      "frequencyHz": 2,
+      "maxPoints": 360,
+      "labels": [
+        "Moisture"
+      ],
+      "height": 200,
+      "gridRow": 3,
+      "gridColSpan": 2
+    },
+    {
+      "id": "qps8aur6x",
+      "topic": "/science/moisture_percent",
+      "title": "Moisture",
+      "frequencyHz": 2,
+      "maxPoints": 1,
+      "labels": [
+        "Moisture"
+      ],
+      "height": 200,
+      "gridRow": 4,
+      "gridColSpan": 2
+    },
+    {
+      "id": "3ppbhx3dp",
+      "topic": "/science/weights",
+      "title": "/science/weights",
+      "frequencyHz": 0.2,
+      "maxPoints": 1,
+      "labels": [],
+      "height": 200,
+      "gridRow": 5,
+      "gridColSpan": 2
+    }
+  ],
+  "sliders": [
+    {
+      "id": "82x0s21no",
+      "topic": "/science/servo_commands",
+      "label": "Serwo-Docisk",
+      "min": 900,
+      "max": 2500,
+      "step": 50,
+      "defaultValue": 1100,
+      "arrayIndex": 2,
+      "arrayIndices": [
+        2
+      ],
+      "arrayLength": 4,
+      "gridRow": 6,
+      "gridColSpan": 2
+    }
+  ],
+  "gridColumns": 4,
+  "maxWidth": 1200,
+  "groups": [
+    {
+      "id": "rgip0tekh",
+      "label": "Serwo-Dcisk",
+      "buttons": [
+        {
+          "id": "t3sqg0o6r",
+          "label": "Down",
+          "topic": "/science/servo_commands",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {
+            "2": 2500
+          },
+          "activeIndices": [
+            2
+          ],
+          "array_length": 4,
+          "subgroupId": "ygtli99qj",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "7wnp4698k",
+          "label": "Up",
+          "topic": "/science/servo_commands",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {
+            "2": 1100
+          },
+          "activeIndices": [
+            2
+          ],
+          "array_length": 4,
+          "subgroupId": "ygtli99qj",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "k985jja9n",
+          "label": "Mid",
+          "topic": "/science/servo_commands",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {
+            "2": 2000
+          },
+          "activeIndices": [
+            2
+          ],
+          "array_length": 4,
+          "subgroupId": "ygtli99qj",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "hm3q1igcl",
+          "label": "Docisk",
+          "topic": "/science/stepper_commands",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {
+            "0": 1,
+            "1": 10,
+            "2": 0,
+            "3": 100
+          },
+          "activeIndices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "array_length": 4,
+          "subgroupId": "uolf63trb",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "3wd1bxxyy",
+          "label": "Lej",
+          "topic": "/science/stepper_commands",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {
+            "0": 1,
+            "1": 10,
+            "2": 1,
+            "3": 100
+          },
+          "activeIndices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "array_length": 4,
+          "subgroupId": "uolf63trb",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "c4x1m7um0",
+          "label": "STOP REWOLWER",
+          "topic": "/science/stepper_commands",
+          "type": "std_msgs/msg/Int32MultiArray",
+          "values": {
+            "0": 1
+          },
+          "activeIndices": [
+            0
+          ],
+          "array_length": 4,
+          "subgroupId": null,
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "tvlia6fzn",
+          "label": "H1+",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "0":100
+          },
+          "activeIndices": [
+            0
+          ],
+          "array_length": 4,
+          "subgroupId": "3wxb0txda",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "upiswv15h",
+          "label": "H1-0",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "0": 0
+          },
+          "activeIndices": [
+            0
+          ],
+          "array_length": 4,
+          "subgroupId": "3wxb0txda",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "9v5ld1vu4",
+          "label": "H1-",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "0":-100
+          },
+          "activeIndices": [
+            0
+          ],
+          "array_length": 4,
+          "subgroupId": "3wxb0txda",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "7kpcx23s4",
+          "label": "H2+",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "1":100
+          },
+          "activeIndices": [
+            1
+          ],
+          "array_length": 4,
+          "subgroupId": "9y830smy8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "00wswykky",
+          "label": "H2-0",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "1": 0
+          },
+          "activeIndices": [
+            1
+          ],
+          "array_length": 4,
+          "subgroupId": "9y830smy8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "eh9f3mixe",
+          "label": "Do prozdu",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "1":-100
+          },
+          "activeIndices": [
+            1
+          ],
+          "array_length": 4,
+          "subgroupId": "9y830smy8",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "297srdvdr",
+          "label": "H3+",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "2":30
+          },
+          "activeIndices": [
+            2
+          ],
+          "array_length": 4,
+          "subgroupId": "aj9wb9vit",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "pv1dqaa6f",
+          "label": "H3-0",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "2": 0
+          },
+          "activeIndices": [
+            2
+          ],
+          "array_length": 4,
+          "subgroupId": "aj9wb9vit",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "8xzpo4twr",
+          "label": "H4+",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "3":100
+          },
+          "activeIndices": [
+            3
+          ],
+          "array_length": 4,
+          "subgroupId": "n5e2ic18v",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "1y4izcrsr",
+          "label": "H4-0",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "3": 0
+          },
+          "activeIndices": [
+            3
+          ],
+          "array_length": 4,
+          "subgroupId": "n5e2ic18v",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "w5rarvn3z",
+          "label": "H4-",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "3":-100
+          },
+          "activeIndices": [
+            3
+          ],
+          "array_length": 4,
+          "subgroupId": "n5e2ic18v",
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        },
+        {
+          "id": "445ygb51e",
+          "label": "STOP HBRIDGE",
+          "topic": "/Hbridge",
+          "type": "std_msgs/msg/Int8MultiArray",
+          "values": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "activeIndices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "array_length": 4,
+          "subgroupId": null,
+          "isContinuous": false,
+          "publishFrequencyHz": 1,
+          "isMacro": false,
+          "macroSteps": []
+        }
+      ],
+      "gridRow": 1,
+      "gridCol": 1,
+      "gridColSpan": 4,
+      "subgroups": [
+        {
+          "id": "ygtli99qj",
+          "name": "Docisk"
+        },
+        {
+          "id": "uolf63trb",
+          "name": "Rewolwer"
+        },
+        {
+          "id": "9y830smy8",
+          "name": "Pelet"
+        },
+        {
+          "id": "3wxb0txda",
+          "name": "H1"
+        },
+        {
+          "id": "aj9wb9vit",
+          "name": "Mieszanie"
+        },
+        {
+          "id": "n5e2ic18v",
+          "name": "Wek"
+        }
+      ]
+    }
+  ]
+}

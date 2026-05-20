@@ -1,0 +1,16 @@
+[Unit]
+Description=OPS Control Panel (start/stop frontend & backend)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/ar/Documents/GitHub/-OPS-ContolWebApp/control-panel/server.py
+Restart=on-failure
+RestartSec=3
+WorkingDirectory=/home/ar/Documents/GitHub/-OPS-ContolWebApp/control-panel
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

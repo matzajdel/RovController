@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<jetsonScripts><script><name>bringup_navigation</name><session>ros2-nav</session><command>ros2 launch nav_bringup bringup_launch.py</command><workingDir /><autoRestart>true</autoRestart><description>Standard navigation launch</description><tags>launch, nav</tags></script><script><name>perception_stack</name><session>ros2-perception</session><command>ros2 launch perception bringup.launch.py</command><workingDir /><autoRestart>true</autoRestart><description>Perception pipeline</description><tags>perception</tags></script></jetsonScripts>

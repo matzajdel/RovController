@@ -1,0 +1,21 @@
+{
+  "cameras": [
+    {
+      "id": "http:camera1",
+      "name": "Camera 1",
+      "url": "http://192.168.2.50:8080/?action=stream",
+      "type": "http_mjpeg",
+      "enabled": true,
+      "description": "Main camera on port 8080"
+    },
+    {
+      "id": "gstreamer:front",
+      "name": "Front",
+      "udp_port": 2140,
+      "type": "gstreamer",
+      "enabled": true
+    }
+  ],
+  "_comment": "This configuration mirrors the desktop app camera setup. Update ROBOT_IP (192.168.2.100) to match your robot's IP address. Camera ports 8081-8084 are used for HTTP/MJPEG streaming.",
+  "receiver_ip": "192.168.2.42"
+}
