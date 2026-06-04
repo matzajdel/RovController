@@ -2,7 +2,7 @@ name: Frontend Verification Workflow
 
 on:
   pull_request: 
-    types: [opened]
+    types: [opened, synchronize, reopened]
     branches: [main]
     paths:
       - 'rov_frontend/**'
@@ -29,12 +29,17 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.44.1'
           channel: 'stable'
           cache: true
 
       - name: Install Dependencies
         run: |
           flutter pub get
+
+      - name: Generate platform folders
+        run: |
+          flutter create .
 
       - name: Build App
         run: |
