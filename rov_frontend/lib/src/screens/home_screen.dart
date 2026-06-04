@@ -3,17 +3,42 @@ import 'package:flutter/material.dart';
 import '../backend_controller.dart';
 import '../widgets/rov_joystick.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final BackendController controller;
 
   const HomeScreen({super.key, required this.controller});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentScreen = 0;
+
+  static const List<String> _screenTitles = [
+    'Drive',
+    'Manipulator',
+  ];
+
+  void _goToPreviousScreen() {
+    setState(() {
+      _currentScreen =
+          (_currentScreen - 1 + _screenTitles.length) % _screenTitles.length;
+    });
+  }
+
+  void _goToNextScreen() {
+    setState(() {
+      _currentScreen = (_currentScreen + 1) % _screenTitles.length;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller,
+      animation: widget.controller,
       builder: (context, _) {
-        final connected = controller.connected;
+        final connected = widget.controller.connected;
 
         return Scaffold(
           body: SafeArea(
@@ -24,50 +49,33 @@ class HomeScreen extends StatelessWidget {
                   _TopStatusBar(
                     connected: connected,
                     onConnectPressed: () async {
-                      await controller.connect();
+                      await widget.controller.connect();
                     },
                   ),
                   const SizedBox(height: 12),
-                  _ControlGrid(),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: FilledButton.icon(
-                          onPressed: () {
+                  Expanded(
+                    child: IndexedStack(
+                      index: _currentScreen,
+                      children: [
+                        _DriveScreen(
+                          connected: connected,
+                          onChanged: widget.controller.setJoystick,
+                          onReleased: widget.controller.releaseJoystick,
+                          onOpenCamera: () {
                             Navigator.of(context).pushNamed('/camera');
                           },
-                          icon: const Icon(Icons.photo_camera_outlined),
-                          label: const Text('Camera'),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.settings_outlined),
-                          label: const Text('Settings'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 420),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: RovJoystick(
-                            enabled: connected,
-                            onChanged: controller.setJoystick,
-                            onReleased: controller.releaseJoystick,
-                          ),
-                        ),
-                      ),
+                        const _ManipulatorScreen(),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 16),
+                  _ScreenSwitcher(
+                    title: _screenTitles[_currentScreen],
+                    onPrevious: _goToPreviousScreen,
+                    onNext: _goToNextScreen,
+                  ),
+                  const SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
                     height: 56,
@@ -76,7 +84,9 @@ class HomeScreen extends StatelessWidget {
                         backgroundColor: Theme.of(context).colorScheme.error,
                         foregroundColor: Theme.of(context).colorScheme.onError,
                       ),
-                      onPressed: controller.backendStarted ? controller.emergencyStop : null,
+                      onPressed: widget.controller.backendStarted
+                          ? widget.controller.emergencyStop
+                          : null,
                       icon: const Icon(Icons.power_settings_new),
                       label: const Text('Emergency Stop'),
                     ),
@@ -91,11 +101,99 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+class _DriveScreen extends StatelessWidget {
+  final bool connected;
+  final JoystickChanged onChanged;
+  final VoidCallback onReleased;
+  final VoidCallback onOpenCamera;
+
+  const _DriveScreen({
+    required this.connected,
+    required this.onChanged,
+    required this.onReleased,
+    required this.onOpenCamera,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: RovJoystick(
+                  enabled: connected,
+                  onChanged: onChanged,
+                  onReleased: onReleased,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        _ControlGrid(onOpenCamera: onOpenCamera),
+      ],
+    );
+  }
+}
+
+class _ManipulatorScreen extends StatelessWidget {
+  const _ManipulatorScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Manipulator screen (coming soon)'),
+    );
+  }
+}
+
+class _ScreenSwitcher extends StatelessWidget {
+  final String title;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  const _ScreenSwitcher({
+    required this.title,
+    required this.onPrevious,
+    required this.onNext,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: onPrevious,
+          icon: const Icon(Icons.keyboard_arrow_left),
+          tooltip: 'Previous screen',
+        ),
+        Expanded(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        IconButton(
+          onPressed: onNext,
+          icon: const Icon(Icons.keyboard_arrow_right),
+          tooltip: 'Next screen',
+        ),
+      ],
+    );
+  }
+}
+
 class _TopStatusBar extends StatelessWidget {
   final bool connected;
   final VoidCallback onConnectPressed;
 
-  const _TopStatusBar({required this.connected, required this.onConnectPressed});
+  const _TopStatusBar(
+      {required this.connected, required this.onConnectPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +216,10 @@ class _TopStatusBar extends StatelessWidget {
 }
 
 class _ControlGrid extends StatelessWidget {
+  final VoidCallback onOpenCamera;
+
+  const _ControlGrid({required this.onOpenCamera});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -134,7 +236,8 @@ class _ControlGrid extends StatelessWidget {
           children: [
             Expanded(child: _PadButton(label: 'Mode', onPressed: () {})),
             const SizedBox(width: 12),
-            Expanded(child: _PadButton(label: 'Reset', onPressed: () {})),
+            Expanded(
+                child: _PadButton(label: 'Camera', onPressed: onOpenCamera)),
           ],
         ),
       ],
