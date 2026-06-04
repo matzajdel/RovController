@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../backend_controller.dart';
+import 'manipulator_screen.dart';
 import '../widgets/rov_joystick.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.of(context).pushNamed('/camera');
                           },
                         ),
-                        const _ManipulatorScreen(),
+                        const ManipulatorScreen(enabled: true),
                       ],
                     ),
                   ),
@@ -136,17 +137,6 @@ class _DriveScreen extends StatelessWidget {
         const SizedBox(height: 12),
         _ControlGrid(onOpenCamera: onOpenCamera),
       ],
-    );
-  }
-}
-
-class _ManipulatorScreen extends StatelessWidget {
-  const _ManipulatorScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Manipulator screen (coming soon)'),
     );
   }
 }
