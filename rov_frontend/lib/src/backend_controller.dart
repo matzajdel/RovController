@@ -67,6 +67,19 @@ class BackendController extends ChangeNotifier {
     backend.controlService.releaseJoystickInput();
   }
 
+  /// Publishes a power circuit command to the rover's /string_topic.
+  ///
+  /// The [message] should follow the format "CX-ON" or "CX-OFF"
+  /// (e.g. "C1-ON", "C3-OFF"), matching the ROS node in power_kurwa_working.py.
+  void publishPowerCircuit(String message) {
+    if (!_backendStarted) return;
+    backend.roverClient.publishRaw(
+      '/string_topic',
+      'std_msgs/msg/String',
+      message,
+    );
+  }
+
   @override
   void dispose() {
     _connectionSub?.cancel();

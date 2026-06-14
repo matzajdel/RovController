@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../backend_controller.dart';
 import 'manipulator_screen.dart';
+import 'power_screen.dart';
 import '../widgets/rov_joystick.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<String> _screenTitles = [
     'Drive',
     'Manipulator',
+    'Power',
   ];
 
   void _goToPreviousScreen() {
@@ -67,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         const ManipulatorScreen(enabled: true),
+                        PowerScreen(controller: widget.controller),
                       ],
                     ),
                   ),
