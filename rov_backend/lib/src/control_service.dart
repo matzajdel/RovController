@@ -115,14 +115,27 @@ class ControlService {
     final idx = buttonId - 1;
     if (idx >= 0 && idx < 6) {
       arrayState[idx] = value;
-      final msg = {
-        "layout": {"dim": [], "data_offset": 0},
-        "data": arrayState.toList(),
-      };
-      roverClient.publish("/array_topic", "std_msgs/msg/Float64MultiArray", msg);
-      print("ControlService: Published array state: $arrayState");
+      _publishArrayState();
     }
   }
+
+  void publishManipulatorValues(List<double> values) {
+    if (values.length == 6) {
+      for (int i = 0; i < 6; i++) {
+        arrayState[i] = values[i];
+      }
+      _publishArrayState();
+    }
+  }
+
+  void _publishArrayState() {
+    final msg = {
+      "layout": {"dim": [], "data_offset": 0},
+      "data": arrayState.toList(),
+    };
+    roverClient.publish("/array_topic", "std_msgs/msg/Float64MultiArray", msg);
+  }
+
 
   void handleHidMove(String code, double? value, Map<String, double>? axesMap) {
     isJoystickActive = false; // Gamepad event deactivates simple joystick

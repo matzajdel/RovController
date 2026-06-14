@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 import '../backend_controller.dart';
 import 'manipulator_screen.dart';
 import 'power_screen.dart';
 import '../widgets/rov_joystick.dart';
+import '../widgets/wifi_connect_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   final BackendController controller;
@@ -52,8 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   _TopStatusBar(
                     connected: connected,
                     onConnectPressed: () async {
-                      await widget.controller.connect();
+                      await showWifiConnectDialog(context, widget.controller);
                     },
+                    onDisconnectPressed: widget.controller.disconnect,
                   ),
                   const SizedBox(height: 12),
                   Expanded(
@@ -68,7 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.of(context).pushNamed('/camera');
                           },
                         ),
-                        const ManipulatorScreen(enabled: true),
+                        ManipulatorScreen(
+                          enabled: connected,
+                          controller: widget.controller,
+                        ),
                         PowerScreen(controller: widget.controller),
                       ],
                     ),
@@ -105,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _DriveScreen extends StatelessWidget {
+class _DriveScreen extends StatefulWidget {
   final bool connected;
   final JoystickChanged onChanged;
   final VoidCallback onReleased;
@@ -119,9 +126,66 @@ class _DriveScreen extends StatelessWidget {
   });
 
   @override
+  State<_DriveScreen> createState() => _DriveScreenState();
+}
+
+class _DriveScreenState extends State<_DriveScreen> {
+  bool _imuEnabled = false;
+  StreamSubscription<AccelerometerEvent>? _imuSubscription;
+
+  void _toggleImu(bool value) {
+    setState(() {
+      _imuEnabled = value;
+    });
+
+    if (value) {
+      _imuSubscription = accelerometerEventStream().listen((event) {
+        if (!widget.connected) return;
+        // Wartości przyspieszenia (w tym grawitacji).
+        // Telefon płasko na stole: z=9.8.
+        // Pochylenie do przodu/tyłu to oś Y.
+        // Pochylenie na boki to oś X.
+        
+        // Normalizacja do zakresu [-1.0, 1.0] z martwą strefą.
+        // Dzielimy przez 6.0 żeby nie trzeba było pionowo stawiać telefonu (9.8 to pełny pion)
+        double normX = -(event.x / 6.0).clamp(-1.0, 1.0);
+        double normY = (event.y / 6.0).clamp(-1.0, 1.0);
+        
+        // Deadzone 15%
+        if (normX.abs() < 0.15) normX = 0;
+        if (normY.abs() < 0.15) normY = 0;
+        
+        widget.onChanged(normX, normY);
+      });
+    } else {
+      _imuSubscription?.cancel();
+      _imuSubscription = null;
+      widget.onReleased();
+    }
+  }
+
+  @override
+  void dispose() {
+    _imuSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // IMU Toggle Switch
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const Text('IMU Steering', style: TextStyle(fontSize: 12)),
+            Switch(
+              value: _imuEnabled,
+              onChanged: widget.connected ? _toggleImu : null,
+              activeColor: Theme.of(context).colorScheme.primary,
+            ),
+          ],
+        ),
         Expanded(
           child: Center(
             child: ConstrainedBox(
@@ -129,16 +193,16 @@ class _DriveScreen extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1,
                 child: RovJoystick(
-                  enabled: connected,
-                  onChanged: onChanged,
-                  onReleased: onReleased,
+                  enabled: widget.connected && !_imuEnabled,
+                  onChanged: widget.onChanged,
+                  onReleased: widget.onReleased,
                 ),
               ),
             ),
           ),
         ),
         const SizedBox(height: 12),
-        _ControlGrid(onOpenCamera: onOpenCamera),
+        _ControlGrid(onOpenCamera: widget.onOpenCamera),
       ],
     );
   }
@@ -184,25 +248,53 @@ class _ScreenSwitcher extends StatelessWidget {
 class _TopStatusBar extends StatelessWidget {
   final bool connected;
   final VoidCallback onConnectPressed;
+  final VoidCallback onDisconnectPressed;
 
-  const _TopStatusBar(
-      {required this.connected, required this.onConnectPressed});
+  const _TopStatusBar({
+    required this.connected,
+    required this.onConnectPressed,
+    required this.onDisconnectPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final statusText = connected ? 'Connected' : 'Disconnected';
+    final statusText = connected ? 'Połączono' : 'Rozłączono';
     final statusIcon = connected ? Icons.wifi : Icons.wifi_off;
+    final statusColor = connected
+        ? const Color(0xFF10B981)
+        : Theme.of(context).colorScheme.onSurface.withAlpha(120);
 
     return Row(
       children: [
-        Icon(statusIcon, size: 18),
+        Icon(statusIcon, size: 18, color: statusColor),
         const SizedBox(width: 8),
-        Text(statusText, style: Theme.of(context).textTheme.titleSmall),
-        const Spacer(),
-        FilledButton(
-          onPressed: connected ? null : onConnectPressed,
-          child: const Text('Connect'),
+        Text(
+          statusText,
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall
+              ?.copyWith(color: statusColor),
         ),
+        const Spacer(),
+        if (connected)
+          OutlinedButton.icon(
+            onPressed: onDisconnectPressed,
+            icon: const Icon(Icons.wifi_off, size: 16),
+            label: const Text('Rozłącz'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.red.shade400,
+              side: BorderSide(color: Colors.red.shade400.withAlpha(150)),
+            ),
+          )
+        else
+          FilledButton.icon(
+            onPressed: onConnectPressed,
+            icon: const Icon(Icons.wifi_find, size: 16),
+            label: const Text('Połącz'),
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFF6366F1),
+            ),
+          ),
       ],
     );
   }

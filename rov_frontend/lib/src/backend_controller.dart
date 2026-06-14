@@ -19,6 +19,14 @@ class BackendController extends ChangeNotifier {
   static const String defaultRoverIp = '192.168.2.100';
 
   Future<void> connect({String roverIp = defaultRoverIp}) async {
+    // The rov_backend package uses dart:io (HttpServer, File, WebSocket) which
+    // is not available on web. Skip the native backend on web — the app runs
+    // in UI-only / demo mode.
+    if (kIsWeb) {
+      print('BackendController: Web platform — skipping native backend start.');
+      return;
+    }
+
     if (!_backendStarted) {
       final dir = await getApplicationDocumentsDirectory();
       await backend.start(
@@ -72,12 +80,23 @@ class BackendController extends ChangeNotifier {
   /// The [message] should follow the format "CX-ON" or "CX-OFF"
   /// (e.g. "C1-ON", "C3-OFF"), matching the ROS node in power_kurwa_working.py.
   void publishPowerCircuit(String message) {
-    if (!_backendStarted) return;
+    if (kIsWeb || !_backendStarted) return;
     backend.roverClient.publishRaw(
       '/string_topic',
       'std_msgs/msg/String',
       message,
     );
+  }
+
+  /// Publishes manipulator joint values to /array_topic as Float64MultiArray.
+  ///
+  /// [values] must be a 6-element list representing axes 1–6.
+  /// Values are in the range −100..100 (matching gamepad_ros2_bridge.py convention).
+  /// Internally calls ControlService.publishManipulatorValues which sends
+  /// the full Float64MultiArray to /array_topic.
+  void publishManipulatorArray(List<double> values) {
+    if (kIsWeb || !_backendStarted) return;
+    backend.controlService.publishManipulatorValues(values);
   }
 
   @override

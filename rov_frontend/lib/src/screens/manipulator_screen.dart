@@ -1,25 +1,63 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../backend_controller.dart';
 import '../widgets/rov_joystick.dart';
 
 class ManipulatorScreen extends StatefulWidget {
   final bool enabled;
+  final BackendController controller;
 
-  const ManipulatorScreen({super.key, required this.enabled});
+  const ManipulatorScreen({
+    super.key,
+    required this.enabled,
+    required this.controller,
+  });
 
   @override
   State<ManipulatorScreen> createState() => _ManipulatorScreenState();
 }
 
 class _ManipulatorScreenState extends State<ManipulatorScreen> {
-  double _axis1 = 0.0;
-  double _axis2 = 0.0;
-  double _axis3 = 0.0;
-  double _axis4 = 0.0;
-  double _axis5 = 0.0;
-  double _axis6 = 0.0;
+  double _axis1 = 0.0; // left joystick X  → arm base yaw
+  double _axis2 = 0.0; // left joystick Y  → shoulder
+  double _axis3 = 0.0; // right joystick Y → elbow
+  double _axis4 = 0.0; // right joystick X → wrist pitch
+  double _axis5 = 0.0; // slider left      → wrist roll
+  double _axis6 = 0.0; // spring grip      → gripper
+
+  /// 20 Hz publish timer — matches gamepad_ros2_bridge.py (50 ms interval)
+  Timer? _publishTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _publishTimer = Timer.periodic(
+      const Duration(milliseconds: 50),
+      (_) => _publishArray(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _publishTimer?.cancel();
+    super.dispose();
+  }
+
+  /// Maps axis value (-1..1) to ROS convention (-100..100) and publishes
+  /// the 6-element Float64MultiArray to /array_topic.
+  void _publishArray() {
+    widget.controller.publishManipulatorArray([
+      _axis1 * 100.0,
+      _axis2 * 100.0,
+      _axis3 * 100.0,
+      _axis4 * 100.0,
+      _axis5 * 100.0,
+      _axis6 * 100.0,
+    ]);
+  }
 
   void _onLeftJoystick(double x, double y) {
     setState(() {
@@ -410,10 +448,30 @@ class _ArmPreview extends StatelessWidget {
             left: 12,
             top: 30,
             child: Text(
-              'A1 ${axis1.toStringAsFixed(2)}  A2 ${axis2.toStringAsFixed(2)}\n'
-              'A3 ${axis3.toStringAsFixed(2)}  A4 ${axis4.toStringAsFixed(2)}\n'
-              'A5 ${axis5.toStringAsFixed(2)}  A6 ${axis6.toStringAsFixed(2)}',
-              style: Theme.of(context).textTheme.labelSmall,
+              'A1 ${(axis1 * 100).toStringAsFixed(0)}  '
+              'A2 ${(axis2 * 100).toStringAsFixed(0)}\n'
+              'A3 ${(axis3 * 100).toStringAsFixed(0)}  '
+              'A4 ${(axis4 * 100).toStringAsFixed(0)}\n'
+              'A5 ${(axis5 * 100).toStringAsFixed(0)}  '
+              'A6 ${(axis6 * 100).toStringAsFixed(0)}',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(fontFamily: 'monospace'),
+            ),
+          ),
+          // ROS topic indicator
+          const Positioned(
+            right: 10,
+            top: 10,
+            child: Text(
+              '→ /array_topic\nFloat64MultiArray',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 9,
+                color: Colors.white30,
+                fontFamily: 'monospace',
+              ),
             ),
           ),
         ],
