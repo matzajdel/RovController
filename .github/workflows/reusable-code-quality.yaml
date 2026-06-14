@@ -1,0 +1,95 @@
+name: Reusable Code Quality
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload_to_grafana:
+        description: "Czy wysłać wygenerowane metryki do Grafany?"
+        required: true
+        type: boolean
+
+jobs:
+  analyze_and_test:
+    name: Analiza i Testy (Flutter)
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./rov_frontend
+
+    steps:
+      - name: Pobranie repozytorium
+        uses: actions/checkout@v4
+
+      - name: Konfiguracja środowiska Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Pobranie zależności
+        run: flutter pub get
+
+      - name: 🔍 Analiza statyczna kodu (Linter)
+        run: |
+          mkdir -p build/test_results
+          flutter analyze > analyze_output.txt || true
+          
+          INFOS=$(grep -c "info •" analyze_output.txt || echo 0)
+          WARNINGS=$(grep -c "warning •" analyze_output.txt || echo 0)
+          ERRORS=$(grep -c "error •" analyze_output.txt || echo 0)
+          TOTAL=$((INFOS + WARNINGS + ERRORS))
+          
+          cat <<EOF > build/test_results/static_analysis_metrics.json
+          {
+            "infos": $INFOS,
+            "warnings": $WARNINGS,
+            "errors": $ERRORS,
+            "total_issues": $TOTAL
+          }
+          EOF
+
+      - name: 🧪 Testy jednostkowe i Code Coverage
+        run: |
+          mkdir -p build/test_results
+          flutter test --coverage || true
+          
+          if [ -f coverage/lcov.info ]; then
+            LF=$(grep "^LF:" coverage/lcov.info | awk -F ':' '{sum += $2} END {print sum}')
+            LH=$(grep "^LH:" coverage/lcov.info | awk -F ':' '{sum += $2} END {print sum}')
+            LF=${LF:-0}
+            LH=${LH:-0}
+            PERCENTAGE=$(awk "BEGIN {if ($LF>0) printf \"%.2f\", ($LH/$LF)*100; else print 0}")
+          else
+            LF=0
+            LH=0
+            PERCENTAGE=0
+          fi
+          
+          cat <<EOF > build/test_results/coverage_metrics.json
+          {
+            "lines_found": $LF,
+            "lines_hit": $LH,
+            "coverage_percentage": $PERCENTAGE
+          }
+          EOF
+
+      - name: 💾 Zapisz wyniki jako artefakty (Opcjonalnie)
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-quality-metrics-${{ github.run_id }}
+          path: ./rov_frontend/build/test_results/*.json
+
+      # TEN KROK WYKONA SIĘ TYLKO, JEŚLI PARAMETR JEST 'TRUE'
+      - name: 🚀 Wysyłka metryk do bazy (Grafana)
+        if: ${{ inputs.upload_to_grafana == true }}
+        run: |
+          echo "Wysyłanie wyników analizy statycznej..."
+          curl -X POST "${{ secrets.METRICS_API_URL }}/static-analysis" \
+               -H "Content-Type: application/json" \
+               -H "Authorization: Bearer ${{ secrets.METRICS_API_TOKEN }}" \
+               -d @build/test_results/static_analysis_metrics.json
+               
+          echo "Wysyłanie wyników pokrycia kodu..."
+          curl -X POST "${{ secrets.METRICS_API_URL }}/coverage" \
+               -H "Content-Type: application/json" \
+               -H "Authorization: Bearer ${{ secrets.METRICS_API_TOKEN }}" \
+               -d @build/test_results/coverage_metrics.json
