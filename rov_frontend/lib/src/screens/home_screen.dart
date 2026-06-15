@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   _TopStatusBar(
                     connected: connected,
+                    lastError: widget.controller.lastError,
                     onConnectPressed: () async {
                       await showWifiConnectDialog(context, widget.controller);
                     },
@@ -140,21 +141,15 @@ class _DriveScreenState extends State<_DriveScreen> {
 
     if (value) {
       _imuSubscription = accelerometerEventStream().listen((event) {
-        if (!widget.connected) return;
-        // Wartości przyspieszenia (w tym grawitacji).
-        // Telefon płasko na stole: z=9.8.
-        // Pochylenie do przodu/tyłu to oś Y.
-        // Pochylenie na boki to oś X.
-        
-        // Normalizacja do zakresu [-1.0, 1.0] z martwą strefą.
-        // Dzielimy przez 6.0 żeby nie trzeba było pionowo stawiać telefonu (9.8 to pełny pion)
+        // IMU always sends — BackendController.setJoystick() silently
+        // drops the command if the rover is not connected.
         double normX = -(event.x / 6.0).clamp(-1.0, 1.0);
         double normY = (event.y / 6.0).clamp(-1.0, 1.0);
-        
+
         // Deadzone 15%
         if (normX.abs() < 0.15) normX = 0;
         if (normY.abs() < 0.15) normY = 0;
-        
+
         widget.onChanged(normX, normY);
       });
     } else {
@@ -172,17 +167,25 @@ class _DriveScreenState extends State<_DriveScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Joystick and IMU are ALWAYS enabled — commands are silently dropped
+    // by BackendController if not connected to the rover.
     return Column(
       children: [
         // IMU Toggle Switch
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Text('IMU Steering', style: TextStyle(fontSize: 12)),
+            Text(
+              widget.connected ? 'IMU Steering' : 'IMU Steering (offline)',
+              style: TextStyle(
+                fontSize: 12,
+                color: widget.connected ? null : Colors.orange.shade300,
+              ),
+            ),
             Switch(
               value: _imuEnabled,
-              onChanged: widget.connected ? _toggleImu : null,
-              activeColor: Theme.of(context).colorScheme.primary,
+              onChanged: _toggleImu,
+              activeThumbColor: Theme.of(context).colorScheme.primary,
             ),
           ],
         ),
@@ -193,7 +196,7 @@ class _DriveScreenState extends State<_DriveScreen> {
               child: AspectRatio(
                 aspectRatio: 1,
                 child: RovJoystick(
-                  enabled: widget.connected && !_imuEnabled,
+                  enabled: !_imuEnabled,
                   onChanged: widget.onChanged,
                   onReleased: widget.onReleased,
                 ),
@@ -247,6 +250,7 @@ class _ScreenSwitcher extends StatelessWidget {
 
 class _TopStatusBar extends StatelessWidget {
   final bool connected;
+  final String? lastError;
   final VoidCallback onConnectPressed;
   final VoidCallback onDisconnectPressed;
 
@@ -254,45 +258,73 @@ class _TopStatusBar extends StatelessWidget {
     required this.connected,
     required this.onConnectPressed,
     required this.onDisconnectPressed,
+    this.lastError,
   });
 
   @override
   Widget build(BuildContext context) {
-    final statusText = connected ? 'Połączono' : 'Rozłączono';
+    final statusText = connected ? 'Połączono z ROSBridge' : 'Rozłączono';
     final statusIcon = connected ? Icons.wifi : Icons.wifi_off;
     final statusColor = connected
         ? const Color(0xFF10B981)
         : Theme.of(context).colorScheme.onSurface.withAlpha(120);
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(statusIcon, size: 18, color: statusColor),
-        const SizedBox(width: 8),
-        Text(
-          statusText,
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall
-              ?.copyWith(color: statusColor),
-        ),
-        const Spacer(),
-        if (connected)
-          OutlinedButton.icon(
-            onPressed: onDisconnectPressed,
-            icon: const Icon(Icons.wifi_off, size: 16),
-            label: const Text('Rozłącz'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.red.shade400,
-              side: BorderSide(color: Colors.red.shade400.withAlpha(150)),
+        Row(
+          children: [
+            Icon(statusIcon, size: 18, color: statusColor),
+            const SizedBox(width: 8),
+            Text(
+              statusText,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: statusColor),
             ),
-          )
-        else
-          FilledButton.icon(
-            onPressed: onConnectPressed,
-            icon: const Icon(Icons.wifi_find, size: 16),
-            label: const Text('Połącz'),
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+            const Spacer(),
+            if (connected)
+              OutlinedButton.icon(
+                onPressed: onDisconnectPressed,
+                icon: const Icon(Icons.wifi_off, size: 16),
+                label: const Text('Rozłącz'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red.shade400,
+                  side: BorderSide(color: Colors.red.shade400.withAlpha(150)),
+                ),
+              )
+            else
+              FilledButton.icon(
+                onPressed: onConnectPressed,
+                icon: const Icon(Icons.wifi_find, size: 16),
+                label: const Text('Połącz'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF6366F1),
+                ),
+              ),
+          ],
+        ),
+        // Show connection error hint below status bar
+        if (!connected && lastError != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Row(
+              children: [
+                const Icon(Icons.error_outline, size: 12, color: Colors.orange),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    lastError!,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Colors.orange,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
           ),
       ],

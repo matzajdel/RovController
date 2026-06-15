@@ -292,7 +292,7 @@ class _WifiConnectDialogState extends State<WifiConnectDialog>
           ],
 
           // ── Rover IP section ──────────────────────────────────────────────
-          _buildSectionLabel('IP łazika (ROSBridge)', Icons.router),
+          _buildSectionLabel('IP backendu łazika (port 2137)', Icons.router),
           const SizedBox(height: 10),
           _buildIpField(),
 
