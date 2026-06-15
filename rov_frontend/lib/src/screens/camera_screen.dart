@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 import '../backend_controller.dart';
+import '../widgets/command_log_panel.dart';
 import '../widgets/rov_joystick.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -14,6 +18,71 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   int _selected = 0;
+  VideoPlayerController? _demoVideoController;
+  Future<void>? _demoVideoInit;
+
+  @override
+  void initState() {
+    super.initState();
+    _demoVideoController = VideoPlayerController.asset(
+      'Subway_surfer_gameplay_no_commentary.mp4',
+    )
+      ..setLooping(true)
+      ..setVolume(0.0);
+    _demoVideoInit = _demoVideoController!.initialize().then((_) {
+      if (!mounted) return;
+      _demoVideoController!.play();
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _demoVideoController?.dispose();
+    super.dispose();
+  }
+
+  Widget _buildDemoVideo(BuildContext context) {
+    final controller = _demoVideoController;
+    if (controller == null) {
+      return _buildDemoPlaceholder(context);
+    }
+
+    return FutureBuilder<void>(
+      future: _demoVideoInit,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done || !controller.value.isInitialized) {
+          return _buildDemoPlaceholder(context);
+        }
+
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: FittedBox(
+            fit: BoxFit.cover,
+            clipBehavior: Clip.hardEdge,
+            child: SizedBox(
+              width: controller.value.size.width,
+              height: controller.value.size.height,
+              child: VideoPlayer(controller),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDemoPlaceholder(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.videocam, size: 42, color: Theme.of(context).colorScheme.primary),
+        const SizedBox(height: 12),
+        Text('Demo camera feed', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 8),
+        Text('Wideo działa w pętli', style: Theme.of(context).textTheme.bodySmall),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +90,8 @@ class _CameraScreenState extends State<CameraScreen> {
       animation: widget.controller,
       builder: (context, _) {
         final connected = widget.controller.connected;
+        final demoMode = widget.controller.demoMode;
+        final controlEnabled = widget.controller.controlEnabled;
 
         return Scaffold(
           appBar: AppBar(
@@ -51,7 +122,9 @@ class _CameraScreenState extends State<CameraScreen> {
                       border: Border.all(color: Theme.of(context).dividerColor),
                     ),
                     child: Center(
-                      child: connected
+                      child: demoMode
+                          ? _buildDemoVideo(context)
+                          : connected
                           ? const SizedBox.shrink()
                           : Column(
                               mainAxisSize: MainAxisSize.min,
@@ -71,7 +144,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: RovJoystick(
-                            enabled: connected,
+                            enabled: controlEnabled,
                             onChanged: widget.controller.setJoystick,
                             onReleased: widget.controller.releaseJoystick,
                           ),
@@ -79,6 +152,13 @@ class _CameraScreenState extends State<CameraScreen> {
                       ),
                     ),
                   ),
+                  if (demoMode) ...[
+                    const SizedBox(height: 12),
+                    CommandLogPanel(
+                      entries: widget.controller.commandHistory,
+                      onClear: widget.controller.clearCommandHistory,
+                    ),
+                  ],
                 ],
               ),
             ),

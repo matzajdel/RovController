@@ -5,6 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import '../backend_controller.dart';
 import 'manipulator_screen.dart';
 import 'power_screen.dart';
+import '../widgets/command_log_panel.dart';
 import '../widgets/rov_joystick.dart';
 import '../widgets/wifi_connect_dialog.dart';
 
@@ -45,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
       animation: widget.controller,
       builder: (context, _) {
         final connected = widget.controller.connected;
+        final demoMode = widget.controller.demoMode;
+        final controlEnabled = widget.controller.controlEnabled;
 
         return Scaffold(
           body: SafeArea(
@@ -54,6 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   _TopStatusBar(
                     connected: connected,
+                    demoMode: demoMode,
+                    onDemoToggled: widget.controller.toggleDemoMode,
                     onConnectPressed: () async {
                       await showWifiConnectDialog(context, widget.controller);
                     },
@@ -61,22 +66,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 12),
                   Expanded(
-                    child: IndexedStack(
-                      index: _currentScreen,
+                    child: Column(
                       children: [
-                        _DriveScreen(
-                          connected: connected,
-                          onChanged: widget.controller.setJoystick,
-                          onReleased: widget.controller.releaseJoystick,
-                          onOpenCamera: () {
-                            Navigator.of(context).pushNamed('/camera');
-                          },
+                        Expanded(
+                          child: IndexedStack(
+                            index: _currentScreen,
+                            children: [
+                              _DriveScreen(
+                                connected: connected,
+                                controlEnabled: controlEnabled,
+                                onChanged: widget.controller.setJoystick,
+                                onReleased: widget.controller.releaseJoystick,
+                                onOpenCamera: () {
+                                  Navigator.of(context).pushNamed('/camera');
+                                },
+                              ),
+                              ManipulatorScreen(
+                                enabled: controlEnabled,
+                                controller: widget.controller,
+                              ),
+                              PowerScreen(controller: widget.controller),
+                            ],
+                          ),
                         ),
-                        ManipulatorScreen(
-                          enabled: connected,
-                          controller: widget.controller,
-                        ),
-                        PowerScreen(controller: widget.controller),
+                        if (demoMode) ...[
+                          const SizedBox(height: 12),
+                          CommandLogPanel(
+                            entries: widget.controller.commandHistory,
+                            onClear: widget.controller.clearCommandHistory,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -114,12 +133,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class _DriveScreen extends StatefulWidget {
   final bool connected;
+  final bool controlEnabled;
   final JoystickChanged onChanged;
   final VoidCallback onReleased;
   final VoidCallback onOpenCamera;
 
   const _DriveScreen({
     required this.connected,
+    required this.controlEnabled,
     required this.onChanged,
     required this.onReleased,
     required this.onOpenCamera,
@@ -140,7 +161,7 @@ class _DriveScreenState extends State<_DriveScreen> {
 
     if (value) {
       _imuSubscription = accelerometerEventStream().listen((event) {
-        if (!widget.connected) return;
+        if (!widget.controlEnabled) return;
         // Wartości przyspieszenia (w tym grawitacji).
         // Telefon płasko na stole: z=9.8.
         // Pochylenie do przodu/tyłu to oś Y.
@@ -181,8 +202,8 @@ class _DriveScreenState extends State<_DriveScreen> {
             const Text('IMU Steering', style: TextStyle(fontSize: 12)),
             Switch(
               value: _imuEnabled,
-              onChanged: widget.connected ? _toggleImu : null,
-              activeColor: Theme.of(context).colorScheme.primary,
+              onChanged: widget.controlEnabled ? _toggleImu : null,
+              activeThumbColor: Theme.of(context).colorScheme.primary,
             ),
           ],
         ),
@@ -193,7 +214,7 @@ class _DriveScreenState extends State<_DriveScreen> {
               child: AspectRatio(
                 aspectRatio: 1,
                 child: RovJoystick(
-                  enabled: widget.connected && !_imuEnabled,
+                  enabled: widget.controlEnabled && !_imuEnabled,
                   onChanged: widget.onChanged,
                   onReleased: widget.onReleased,
                 ),
@@ -247,11 +268,15 @@ class _ScreenSwitcher extends StatelessWidget {
 
 class _TopStatusBar extends StatelessWidget {
   final bool connected;
+  final bool demoMode;
+  final VoidCallback onDemoToggled;
   final VoidCallback onConnectPressed;
   final VoidCallback onDisconnectPressed;
 
   const _TopStatusBar({
     required this.connected,
+    required this.demoMode,
+    required this.onDemoToggled,
     required this.onConnectPressed,
     required this.onDisconnectPressed,
   });
@@ -260,7 +285,9 @@ class _TopStatusBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final statusText = connected ? 'Połączono' : 'Rozłączono';
     final statusIcon = connected ? Icons.wifi : Icons.wifi_off;
-    final statusColor = connected
+    final statusColor = demoMode
+      ? Theme.of(context).colorScheme.primary
+      : connected
         ? const Color(0xFF10B981)
         : Theme.of(context).colorScheme.onSurface.withAlpha(120);
 
@@ -269,13 +296,19 @@ class _TopStatusBar extends StatelessWidget {
         Icon(statusIcon, size: 18, color: statusColor),
         const SizedBox(width: 8),
         Text(
-          statusText,
+          demoMode ? 'Demo' : statusText,
           style: Theme.of(context)
               .textTheme
               .titleSmall
               ?.copyWith(color: statusColor),
         ),
         const Spacer(),
+        TextButton.icon(
+          onPressed: onDemoToggled,
+          icon: Icon(demoMode ? Icons.play_circle : Icons.science, size: 16),
+          label: Text(demoMode ? 'Demo on' : 'Demo off'),
+        ),
+        const SizedBox(width: 8),
         if (connected)
           OutlinedButton.icon(
             onPressed: onDisconnectPressed,
@@ -321,8 +354,7 @@ class _ControlGrid extends StatelessWidget {
           children: [
             Expanded(child: _PadButton(label: 'Mode', onPressed: () {})),
             const SizedBox(width: 12),
-            Expanded(
-                child: _PadButton(label: 'Camera', onPressed: onOpenCamera)),
+            Expanded(child: _PadButton(label: 'Camera', onPressed: onOpenCamera)),
           ],
         ),
       ],
