@@ -187,9 +187,7 @@ class _WifiConnectDialogState extends State<WifiConnectDialog> {
                                   leading: const Icon(Icons.wifi),
                                   title: Text(network.ssid),
                                   subtitle: Text(
-                                    network.bars != null
-                                        ? 'Siła sygnału: ${network.bars}/4'
-                                        : 'Sieć wykryta przez skanowanie',
+                                    'Siła sygnału: ${network.bars}/4',
                                   ),
                                   onTap: () {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -210,7 +208,7 @@ class _WifiConnectDialogState extends State<WifiConnectDialog> {
                         ),
                       const SizedBox(height: 20),
                     ] else ...[
-                      _InfoBox(
+                      const _InfoBox(
                         icon: Icons.info_outline,
                         message:
                             'Skanowanie WiFi niedostępne w przeglądarce. Połącz się z siecią łazika ręcznie i podaj jego IP poniżej.',

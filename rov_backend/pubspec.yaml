@@ -8,9 +8,9 @@ environment:
 
 dependencies:
   # Do obsługi połączeń WebSocket z rosbridge łazika
-  web_socket_channel: ^3.0.1
+  web_socket_channel: ^3.0.3
   # Do łatwego operowania na ścieżkach bazy danych w pamięci telefonu
-  path: ^1.9.0
+  path: ^1.9.1
 
 dev_dependencies:
   lints: ^3.0.0

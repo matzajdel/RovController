@@ -43,46 +43,42 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    return AnimatedBuilder(
+      animation: widget.controller,
+      builder: (context, _) {
+        final connected = widget.controller.connected;
+        final demoMode = widget.controller.demoMode;
+        final controlEnabled = widget.controller.controlEnabled;
+        final colorScheme = Theme.of(context).colorScheme;
 
-    return Card(
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        child: Row(
-          children: [
-            Icon(statusIcon, size: 18, color: statusColor),
-            const SizedBox(width: 8),
-            Text(
-              demoMode ? 'Demo' : statusText,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: statusColor),
-            ),
-            const Spacer(),
-            TextButton.icon(
-              onPressed: onDemoToggled,
-              icon: Icon(demoMode ? Icons.play_circle : Icons.science, size: 16),
-              label: Text(demoMode ? 'Demo on' : 'Demo off'),
-            ),
-            const SizedBox(width: 8),
-            if (connected)
-              OutlinedButton.icon(
-                onPressed: onDisconnectPressed,
-                icon: const Icon(Icons.wifi_off, size: 16),
-                label: const Text('Rozłącz'),
-              )
-            else
-              FilledButton.icon(
-                onPressed: onConnectPressed,
-                icon: const Icon(Icons.wifi_find, size: 16),
-                label: const Text('Połącz'),
-              ),
-          ],
-        ),
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Column(
+                children: [
+                  _TopStatusBar(
+                    connected: connected,
+                    demoMode: demoMode,
+                    colorScheme: colorScheme,
+                    onDemoToggled: widget.controller.toggleDemoMode,
+                    onConnectPressed: () async {
+                      await showWifiConnectDialog(context, widget.controller);
+                    },
+                    onDisconnectPressed: widget.controller.disconnect,
+                  ),
+                  const SizedBox(height: 12),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: IndexedStack(
+                            index: _currentScreen,
+                            children: [
+                              _DriveScreen(
+                                connected: connected,
                                 controlEnabled: controlEnabled,
-    );
+                                onChanged: widget.controller.setJoystick,
                                 onReleased: widget.controller.releaseJoystick,
                                 onOpenCamera: () {
                                   Navigator.of(context).pushNamed('/camera');
@@ -103,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             onClear: widget.controller.clearCommandHistory,
                           ),
                         ],
-
                       ],
                     ),
                   ),

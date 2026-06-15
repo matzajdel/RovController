@@ -3,67 +3,67 @@
   "packages": [
     {
       "name": "async",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.13.1",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.13.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "collection",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.19.1",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.19.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "crypto",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.7",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.7",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "lints",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/lints-3.0.0",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/lints-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "meta",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.18.2",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.18.2",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "path",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/stream_channel-2.1.4",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/stream_channel-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "typed_data",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "web",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "web_socket",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/web_socket-1.0.1",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/web_socket-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "web_socket_channel",
-      "rootUri": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache/hosted/pub.dev/web_socket_channel-3.0.3",
+      "rootUri": "file:///C:/Users/Micha/AppData/Local/Pub/Cache/hosted/pub.dev/web_socket_channel-3.0.3",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -75,8 +75,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.12.0",
-  "flutterRoot": "file:///C:/Users/Mateusz/flutter_sdk/flutter",
-  "flutterVersion": "3.44.0",
-  "pubCache": "file:///C:/Users/Mateusz/AppData/Local/Pub/Cache"
+  "generatorVersion": "3.12.1",
+  "flutterRoot": "file:///C:/Users/Micha/Documents/GitHub/flutter",
+  "flutterVersion": "3.44.1",
+  "pubCache": "file:///C:/Users/Micha/AppData/Local/Pub/Cache"
 }

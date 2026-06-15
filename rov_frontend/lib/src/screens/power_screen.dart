@@ -143,7 +143,6 @@ class _PowerScreenState extends State<PowerScreen>
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final demoMode = widget.controller.demoMode;
 
     return Column(
