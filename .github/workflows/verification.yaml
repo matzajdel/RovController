@@ -10,6 +10,53 @@ permissions:
   contents: read
 
 jobs:
+  check-pull-request:
+    name: Pull Request Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract & Validate Task ID
+        id: extract-task
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ "$TITLE" =~ ^\[?#([0-9]+)\]? ]]; then
+            ISSUE_NUMBER="${BASH_REMATCH[1]}"
+            
+            echo "Title format is correct. Detected issue number: $ISSUE_NUMBER"
+            echo "issue_number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+          else
+            echo "Error: PR title must start with the Issue number, e.g., '[#31] Fix' or '#42 New feature'."
+            exit 1
+          fi
+
+      - name: Verify Task in GitHub Project
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }} 
+          ISSUE_NUMBER: ${{ steps.extract-task.outputs.issue_number }}
+        run: |
+          echo "Fetching tasks from project board matzajdel/projects/1..."
+          
+          ITEMS_JSON=$(gh project item-list 1 --owner "@me" --format json)
+          MATCH_ISSUE=$(echo "$ITEMS_JSON" | jq -r ".items[] | select(.content.number == ($ISSUE_NUMBER | tonumber?)) | .title")
+
+          MATCH_DRAFT=$(echo "$ITEMS_JSON" | jq -r ".items[] | select(.type == \"DRAFT_ISSUE\" and (.title | contains(\"#$ISSUE_NUMBER\"))) | .title")
+
+          if [[ -n "$MATCH_DRAFT" || -n "$MATCH_ISSUE" ]]; then
+            echo "Task successfully found on the Kanban board!"
+            
+            if [[ -n "$MATCH_ISSUE" ]]; then
+              echo "Found (Issue): $MATCH_ISSUE"
+            fi
+            
+            if [[ -n "$MATCH_DRAFT" ]]; then
+              echo "Found (Draft): $MATCH_DRAFT"
+            fi
+          else
+            echo "Error: Issue #$ISSUE_NUMBER does not exist in 'matzajdel/projects/1'."
+            echo "Make sure you added the ticket to the Kanban board!"
+            exit 1
+          fi
+
   detect-changes:
     name: Detect Changed Packages
     runs-on: ubuntu-latest
@@ -75,3 +122,37 @@ jobs:
       - name: Build App
         run: |
           flutter build apk --debug
+
+  assign-labels:
+    name: Assign PR Labels
+    runs-on: ubuntu-latest
+    needs: [detect-changes, code-quality-check, verify]
+    if: always()
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Label PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PACKAGES: ${{ needs.detect-changes.outputs.packages }}
+          FRONTEND_STATUS: ${{ needs.verify.result }}
+          QUALITY_STATUS: ${{ needs.code-quality-check.result }}
+        run: |
+          LABELS=""
+          
+          # 1. Labels based on changed paths
+          if [[ "$PACKAGES" == *"rov_frontend"* ]]; then LABELS="$LABELS,frontend"; fi
+          if [[ "$PACKAGES" == *"rov_backend"* ]]; then LABELS="$LABELS,backend"; fi
+          
+          # 2. Success label (if build/quality checks did not fail)
+          if [[ "$FRONTEND_STATUS" == "success" || "$FRONTEND_STATUS" == "skipped" ]] && \
+             [[ "$QUALITY_STATUS" == "success" || "$QUALITY_STATUS" == "skipped" ]]; then
+            LABELS="$LABELS,verified"
+          fi
+
+          LABELS=${LABELS#,}
+          if [ -n "$LABELS" ]; then
+            gh pr edit "$PR_URL" --add-label "$LABELS"
+          fi
