@@ -1,4 +1,4 @@
-name: RovController Verification Workflow
+name: Rov Controller Verification Workflow
 
 on:
   pull_request: 
