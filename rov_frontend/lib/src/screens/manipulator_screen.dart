@@ -572,7 +572,7 @@ class _ArmPreviewPainter extends CustomPainter {
     final rot = wristAngle + axis5 * 0.9;
     final gripOpen = (axis6 + 1.0) / 2.0;
     final gripGap = 8 + (18 * gripOpen);
-    final fingerLen = 24.0;
+    const fingerLen = 24.0;
     final fingerPaint = Paint()
       ..color = scheme.secondary
       ..strokeWidth = 4
