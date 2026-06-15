@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../backend_controller.dart';
+import '../widgets/command_log_panel.dart';
 
 // ---------------------------------------------------------------------------
 // Circuit definitions — match the rover's /string_topic naming convention
@@ -231,6 +232,7 @@ class _PowerScreenState extends State<PowerScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final demoMode = widget.controller.demoMode;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -277,6 +279,14 @@ class _PowerScreenState extends State<PowerScreen>
         if (_lastAction != null) ...[
           const SizedBox(height: 8),
           _StatusFeedback(action: _lastAction!),
+        ],
+
+        if (demoMode) ...[
+          const SizedBox(height: 12),
+          CommandLogPanel(
+            entries: widget.controller.commandHistory,
+            onClear: widget.controller.clearCommandHistory,
+          ),
         ],
 
         const SizedBox(height: 8),

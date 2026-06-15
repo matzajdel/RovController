@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 import '../backend_controller.dart';
+import '../widgets/command_log_panel.dart';
 
 import '../widgets/rov_joystick.dart';
 
@@ -90,7 +91,8 @@ class _CameraScreenState extends State<CameraScreen> {
       animation: widget.controller,
       builder: (context, _) {
         final connected = widget.controller.connected;
-        final controlEnabled = connected;
+        final demoMode = widget.controller.demoMode;
+        final controlEnabled = widget.controller.controlEnabled;
 
         return Scaffold(
           appBar: AppBar(
@@ -121,7 +123,9 @@ class _CameraScreenState extends State<CameraScreen> {
                       border: Border.all(color: Theme.of(context).dividerColor),
                     ),
                     child: Center(
-                      child: connected
+                      child: demoMode
+                          ? _buildDemoVideo(context)
+                          : connected
                           ? const SizedBox.shrink()
                           : Column(
                               mainAxisSize: MainAxisSize.min,
@@ -149,6 +153,13 @@ class _CameraScreenState extends State<CameraScreen> {
                       ),
                     ),
                   ),
+                  if (demoMode) ...[
+                    const SizedBox(height: 12),
+                    CommandLogPanel(
+                      entries: widget.controller.commandHistory,
+                      onClear: widget.controller.clearCommandHistory,
+                    ),
+                  ],
 
                 ],
               ),
