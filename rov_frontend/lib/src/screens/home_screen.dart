@@ -270,7 +270,6 @@ class _TopStatusBar extends StatelessWidget {
     required this.connected,
     required this.onConnectPressed,
     required this.onDisconnectPressed,
-    this.lastError,
   });
 
   @override
@@ -317,28 +316,6 @@ class _TopStatusBar extends StatelessWidget {
               ),
           ],
         ),
-        // Show connection error hint below status bar
-        if (!connected && lastError != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Row(
-              children: [
-                const Icon(Icons.error_outline, size: 12, color: Colors.orange),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Text(
-                    lastError!,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.orange,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-          ),
       ],
     );
   }
