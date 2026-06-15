@@ -1,7 +1,7 @@
 name: Code Quality Workflow
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       upload_to_grafana:
         description: "Whether to send metrics to Grafana"
@@ -30,6 +30,8 @@ jobs:
 
       - name: Static Code Analysis
         run: |
+          set -ex
+
           mkdir -p build/test_results
           flutter analyze > analyze_output.txt || true
           
@@ -49,6 +51,7 @@ jobs:
 
       - name: Unit Tests and Code Coverage Stats
         run: |
+          set -ex
           mkdir -p build/test_results
           flutter test --coverage || true
           
@@ -81,6 +84,8 @@ jobs:
       - name: Send Metrics to Grafana
         if: ${{ inputs.upload_to_grafana == true }}
         run: |
+          set -ex
+          
           echo "Downoload values from JSON files..."
           
           INFOS=$(jq -r '.infos' build/test_results/static_analysis_metrics.json)
