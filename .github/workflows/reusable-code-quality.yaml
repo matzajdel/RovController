@@ -1,41 +1,41 @@
-name: Reusable Code Quality
+name: Code Quality Workflow
 
 on:
   workflow_dispatch:
     inputs:
       upload_to_grafana:
-        description: "Czy wysłać wygenerowane metryki do Grafany?"
+        description: "Whether to send metrics to Grafana"
         required: true
         type: boolean
 
 jobs:
   analyze_and_test:
-    name: Analiza i Testy (Flutter)
+    name: Tests and Analysis
     runs-on: ubuntu-latest
     defaults:
       run: 
         working-directory: ./rov_frontend
 
     steps:
-      - name: Pobranie repozytorium
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Konfiguracja środowiska Flutter
+      - name: Configure Flutter Environment
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      - name: Pobranie zależności
+      - name: Download dependencies
         run: flutter pub get
 
-      - name: 🔍 Analiza statyczna kodu (Linter)
+      - name: Static Code Analysis
         run: |
           mkdir -p build/test_results
           flutter analyze > analyze_output.txt || true
           
-          INFOS=$(grep -c "info •" analyze_output.txt || echo 0)
-          WARNINGS=$(grep -c "warning •" analyze_output.txt || echo 0)
-          ERRORS=$(grep -c "error •" analyze_output.txt || echo 0)
+          INFOS=$(grep "info •" analyze_output.txt | wc -l | tr -d ' ')
+          WARNINGS=$(grep "warning •" analyze_output.txt | wc -l | tr -d ' ')
+          ERRORS=$(grep "error •" analyze_output.txt | wc -l | tr -d ' ')
           TOTAL=$((INFOS + WARNINGS + ERRORS))
           
           cat <<EOF > build/test_results/static_analysis_metrics.json
@@ -47,7 +47,7 @@ jobs:
           }
           EOF
 
-      - name: 🧪 Testy jednostkowe i Code Coverage
+      - name: Unit Tests and Code Coverage Stats
         run: |
           mkdir -p build/test_results
           flutter test --coverage || true
@@ -72,24 +72,31 @@ jobs:
           }
           EOF
 
-      - name: 💾 Zapisz wyniki jako artefakty (Opcjonalnie)
+      - name: Save Results as Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: code-quality-metrics-${{ github.run_id }}
           path: ./rov_frontend/build/test_results/*.json
 
-      # TEN KROK WYKONA SIĘ TYLKO, JEŚLI PARAMETR JEST 'TRUE'
-      - name: 🚀 Wysyłka metryk do bazy (Grafana)
+      - name: Send Metrics to Grafana
         if: ${{ inputs.upload_to_grafana == true }}
         run: |
-          echo "Wysyłanie wyników analizy statycznej..."
-          curl -X POST "${{ secrets.METRICS_API_URL }}/static-analysis" \
-               -H "Content-Type: application/json" \
-               -H "Authorization: Bearer ${{ secrets.METRICS_API_TOKEN }}" \
-               -d @build/test_results/static_analysis_metrics.json
+          echo "Downoload values from JSON files..."
+          
+          INFOS=$(jq -r '.infos' build/test_results/static_analysis_metrics.json)
+          WARNINGS=$(jq -r '.warnings' build/test_results/static_analysis_metrics.json)
+          ERRORS=$(jq -r '.errors' build/test_results/static_analysis_metrics.json)
+          ISSUES=$(jq -r '.total_issues' build/test_results/static_analysis_metrics.json)
+          
+          COVERAGE=$(jq -r '.coverage_percentage' build/test_results/coverage_metrics.json)
+          
+          echo "Code coverage: $COVERAGE%"
+          echo "Sending static analysis results..."
+          curl -X POST -u "${{ secrets.GRAFANA_USER }}:${{ secrets.GRAFANA_PASS }}" \
+               "${{ secrets.GRAFANA_URL }}" \
+               --data-binary "static_analysis,project=rov_frontend,run=${{ github.run_number }} infos=${INFOS},warnings=${WARNINGS},errors=${ERRORS},total_issues=${ISSUES}"
                
-          echo "Wysyłanie wyników pokrycia kodu..."
-          curl -X POST "${{ secrets.METRICS_API_URL }}/coverage" \
-               -H "Content-Type: application/json" \
-               -H "Authorization: Bearer ${{ secrets.METRICS_API_TOKEN }}" \
-               -d @build/test_results/coverage_metrics.json
+          echo "Sending code coverage results..."
+          curl -X POST -u "${{ secrets.GRAFANA_USER }}:${{ secrets.GRAFANA_PASS }}" \
+               "${{ secrets.GRAFANA_URL }}" \
+               --data-binary "code_coverage,project=rov_frontend,run=${{ github.run_number }} percentage=${COVERAGE}"
