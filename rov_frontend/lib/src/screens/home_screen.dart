@@ -43,41 +43,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: widget.controller,
-      builder: (context, _) {
-        final connected = widget.controller.connected;
-        final demoMode = widget.controller.demoMode;
-        final controlEnabled = widget.controller.controlEnabled;
+    final colorScheme = Theme.of(context).colorScheme;
 
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Column(
-                children: [
-                  _TopStatusBar(
-                    connected: connected,
-                    demoMode: demoMode,
-                    onDemoToggled: widget.controller.toggleDemoMode,
-
-                    onConnectPressed: () async {
-                      await showWifiConnectDialog(context, widget.controller);
-                    },
-                    onDisconnectPressed: widget.controller.disconnect,
-                  ),
-                  const SizedBox(height: 12),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: IndexedStack(
-                            index: _currentScreen,
-                            children: [
-                              _DriveScreen(
-                                connected: connected,
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
+          children: [
+            Icon(statusIcon, size: 18, color: statusColor),
+            const SizedBox(width: 8),
+            Text(
+              demoMode ? 'Demo' : statusText,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: statusColor),
+            ),
+            const Spacer(),
+            TextButton.icon(
+              onPressed: onDemoToggled,
+              icon: Icon(demoMode ? Icons.play_circle : Icons.science, size: 16),
+              label: Text(demoMode ? 'Demo on' : 'Demo off'),
+            ),
+            const SizedBox(width: 8),
+            if (connected)
+              OutlinedButton.icon(
+                onPressed: onDisconnectPressed,
+                icon: const Icon(Icons.wifi_off, size: 16),
+                label: const Text('Rozłącz'),
+              )
+            else
+              FilledButton.icon(
+                onPressed: onConnectPressed,
+                icon: const Icon(Icons.wifi_find, size: 16),
+                label: const Text('Połącz'),
+              ),
+          ],
+        ),
                                 controlEnabled: controlEnabled,
-                                onChanged: widget.controller.setJoystick,
+    );
                                 onReleased: widget.controller.releaseJoystick,
                                 onOpenCamera: () {
                                   Navigator.of(context).pushNamed('/camera');
@@ -216,7 +221,7 @@ class _DriveScreenState extends State<_DriveScreen> {
               widget.connected ? 'IMU Steering' : 'IMU Steering (offline)',
               style: TextStyle(
                 fontSize: 12,
-                color: widget.connected ? null : Colors.orange.shade300,
+                color: widget.connected ? null : Theme.of(context).colorScheme.tertiary,
               ),
             ),
             Switch(
@@ -289,6 +294,7 @@ class _ScreenSwitcher extends StatelessWidget {
 class _TopStatusBar extends StatelessWidget {
   final bool connected;
   final bool demoMode;
+  final ColorScheme colorScheme;
   final VoidCallback onDemoToggled;
   final VoidCallback onConnectPressed;
   final VoidCallback onDisconnectPressed;
@@ -296,6 +302,7 @@ class _TopStatusBar extends StatelessWidget {
   const _TopStatusBar({
     required this.connected,
     required this.demoMode,
+    required this.colorScheme,
     required this.onDemoToggled,
     required this.onConnectPressed,
     required this.onDisconnectPressed,
@@ -306,15 +313,16 @@ class _TopStatusBar extends StatelessWidget {
     final statusText = connected ? 'Połączono z ROSBridge' : 'Rozłączono';
     final statusIcon = connected ? Icons.wifi : Icons.wifi_off;
     final statusColor = demoMode
-        ? Theme.of(context).colorScheme.primary
+      ? colorScheme.primary
         : connected
-        ? const Color(0xFF10B981)
-        : Theme.of(context).colorScheme.onSurface.withAlpha(120);
+      ? colorScheme.tertiary
+      : colorScheme.onSurface.withAlpha(120);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+    return Card(
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
           children: [
             Icon(statusIcon, size: 18, color: statusColor),
             const SizedBox(width: 8),
@@ -337,23 +345,16 @@ class _TopStatusBar extends StatelessWidget {
                 onPressed: onDisconnectPressed,
                 icon: const Icon(Icons.wifi_off, size: 16),
                 label: const Text('Rozłącz'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.red.shade400,
-                  side: BorderSide(color: Colors.red.shade400.withAlpha(150)),
-                ),
               )
             else
               FilledButton.icon(
                 onPressed: onConnectPressed,
                 icon: const Icon(Icons.wifi_find, size: 16),
                 label: const Text('Połącz'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF6366F1),
-                ),
               ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

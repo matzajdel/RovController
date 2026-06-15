@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'src/app_theme.dart';
 import 'src/backend_controller.dart';
 import 'src/screens/camera_screen.dart';
 import 'src/screens/home_screen.dart';
@@ -34,7 +35,7 @@ class _RovAppState extends State<RovApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rov Controller',
-      theme: ThemeData.dark(),
+      theme: buildAppTheme(),
       routes: {
         '/': (_) => HomeScreen(controller: _backendController),
         '/camera': (_) => CameraScreen(controller: _backendController),

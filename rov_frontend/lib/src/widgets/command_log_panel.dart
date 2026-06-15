@@ -19,8 +19,8 @@ class CommandLogPanel extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: theme.colorScheme.surfaceContainerHighest.withAlpha(120),
-        border: Border.all(color: theme.dividerColor.withAlpha(120)),
+        color: theme.colorScheme.surface,
+        border: Border.all(color: theme.colorScheme.outlineVariant),
       ),
       padding: const EdgeInsets.all(14),
       child: Column(
