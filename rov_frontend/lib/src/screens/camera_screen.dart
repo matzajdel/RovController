@@ -92,7 +92,6 @@ class _CameraScreenState extends State<CameraScreen> {
       builder: (context, _) {
         final connected = widget.controller.connected;
         final demoMode = widget.controller.demoMode;
-        final controlEnabled = widget.controller.controlEnabled;
 
         return Scaffold(
           appBar: AppBar(
@@ -145,7 +144,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: RovJoystick(
-                            enabled: controlEnabled,
+                            enabled: true,
                             onChanged: widget.controller.setJoystick,
                             onReleased: widget.controller.releaseJoystick,
                           ),

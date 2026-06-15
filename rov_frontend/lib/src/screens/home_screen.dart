@@ -155,25 +155,39 @@ class _DriveScreen extends StatefulWidget {
 
 class _DriveScreenState extends State<_DriveScreen> {
   bool _imuEnabled = false;
-  StreamSubscription<AccelerometerEvent>? _imuSubscription;
+  Offset _imuKnobOffset = Offset.zero;
+  StreamSubscription<GyroscopeEvent>? _imuSubscription;
+
+  void _handleImuEvent(GyroscopeEvent event) {
+    // Gyroscope reports angular velocity. We integrate the current motion into
+    // a stable joystick offset so the knob keeps following the phone motion.
+    const step = 0.04;
+    const deadzone = 0.02;
+
+    final deltaX = event.y.abs() < deadzone ? 0.0 : event.y * step;
+    final deltaY = event.x.abs() < deadzone ? 0.0 : -event.x * step;
+
+    final nextX = (_imuKnobOffset.dx + deltaX).clamp(-0.65, 0.65);
+    final nextY = (_imuKnobOffset.dy + deltaY).clamp(-0.65, 0.65);
+
+    setState(() {
+      _imuKnobOffset = Offset(nextX, nextY);
+    });
+
+    widget.onChanged(nextX / 0.65, -(nextY / 0.65));
+  }
 
   void _toggleImu(bool value) {
     setState(() {
       _imuEnabled = value;
+      if (!value) {
+        _imuKnobOffset = Offset.zero;
+      }
     });
 
     if (value) {
-      _imuSubscription = accelerometerEventStream().listen((event) {
-        // IMU always sends — BackendController.setJoystick() silently
-        // drops the command if the rover is not connected.
-        double normX = -(event.x / 6.0).clamp(-1.0, 1.0);
-        double normY = (event.y / 6.0).clamp(-1.0, 1.0);
-
-        // Deadzone 15%
-        if (normX.abs() < 0.15) normX = 0;
-        if (normY.abs() < 0.15) normY = 0;
-
-        widget.onChanged(normX, normY);
+      _imuSubscription = gyroscopeEventStream().listen((event) {
+        _handleImuEvent(event);
       });
     } else {
       _imuSubscription?.cancel();
@@ -219,7 +233,8 @@ class _DriveScreenState extends State<_DriveScreen> {
               child: AspectRatio(
                 aspectRatio: 1,
                 child: RovJoystick(
-                  enabled: !_imuEnabled,
+                  enabled: true,
+                  knobOffset: _imuEnabled ? _imuKnobOffset : null,
                   onChanged: widget.onChanged,
                   onReleased: widget.onReleased,
                 ),

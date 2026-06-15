@@ -6,12 +6,14 @@ typedef JoystickChanged = void Function(double x, double y);
 
 class RovJoystick extends StatefulWidget {
   final bool enabled;
+  final Offset? knobOffset;
   final JoystickChanged onChanged;
   final VoidCallback onReleased;
 
   const RovJoystick({
     super.key,
     required this.enabled,
+    this.knobOffset,
     required this.onChanged,
     required this.onReleased,
   });
@@ -22,6 +24,17 @@ class RovJoystick extends StatefulWidget {
 
 class _RovJoystickState extends State<RovJoystick> {
   Offset _knob = Offset.zero;
+
+  @override
+  void didUpdateWidget(covariant RovJoystick oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.knobOffset != null && widget.knobOffset != oldWidget.knobOffset) {
+      _knob = widget.knobOffset!;
+    } else if (widget.knobOffset == null && oldWidget.knobOffset != null) {
+      _knob = Offset.zero;
+    }
+  }
 
   void _update(Offset localPos, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
