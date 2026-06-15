@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   _TopStatusBar(
                     connected: connected,
-                    lastError: widget.controller.lastError,
+
                     onConnectPressed: () async {
                       await showWifiConnectDialog(context, widget.controller);
                     },
@@ -262,7 +262,6 @@ class _ScreenSwitcher extends StatelessWidget {
 
 class _TopStatusBar extends StatelessWidget {
   final bool connected;
-  final String? lastError;
   final VoidCallback onConnectPressed;
   final VoidCallback onDisconnectPressed;
 
