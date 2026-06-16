@@ -1,4 +1,4 @@
-name: Nightly Pipeline
+name: Rov Controller Nightly Pipeline
 
 on:
   schedule:
@@ -6,10 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  performance_tests:
-    name: Profilowanie i wysyłka do Grafany
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Pobranie repozytorium
-        uses: actions/checkout@v4
+  code-quality-check:
+    name: Code Quality
+    uses: ./.github/workflows/reusable-code-quality.yaml
+    with:
+      upload_to_grafana: true
