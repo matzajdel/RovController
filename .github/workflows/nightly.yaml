@@ -9,5 +9,6 @@ jobs:
   code-quality-check:
     name: Code Quality
     uses: ./.github/workflows/reusable-code-quality.yaml
+    secrets: inherit
     with:
       upload_to_grafana: true
