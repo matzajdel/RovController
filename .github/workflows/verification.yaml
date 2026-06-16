@@ -6,8 +6,9 @@ on:
     branches: [main]
 
 permissions:
-  pull-requests: read
+  pull-requests: write
   contents: read
+  issues: write
 
 jobs:
   check-pull-request:
@@ -154,5 +155,5 @@ jobs:
 
           LABELS=${LABELS#,}
           if [ -n "$LABELS" ]; then
-            gh pr edit "$PR_URL" --add-label "$LABELS"
+            gh pr edit "$PR_URL" --add-label "$LABELS" || echo "Ignoruję lack of permssion issue." || true
           fi
