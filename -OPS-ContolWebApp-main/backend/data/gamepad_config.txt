@@ -1,1 +1,0 @@
-{"mapping": {"linearAxis": 3, "angularAxis": 0, "invertLinear": true, "invertAngular": false, "btnRB": 0}, "deadzone": 0.1}

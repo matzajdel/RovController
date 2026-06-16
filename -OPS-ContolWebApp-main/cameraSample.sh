@@ -1,1 +1,0 @@
-gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! videoscale ! videorate ! video/x-raw,width=1280,height=720,framerate=24/1 ! videocrop top=0 bottom=0 left=0 right=0 ! x264enc tune=zerolatency speed-preset=ultrafast bitrate=512 ! rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=8081
