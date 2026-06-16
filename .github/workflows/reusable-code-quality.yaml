@@ -33,7 +33,7 @@ jobs:
           set -ex
 
           mkdir -p build/test_results
-          flutter analyze > analyze_output.txt
+          flutter analyze > analyze_output.txt || true
           
           INFOS=$(grep "info •" analyze_output.txt | wc -l | tr -d ' ')
           WARNINGS=$(grep "warning •" analyze_output.txt | wc -l | tr -d ' ')
