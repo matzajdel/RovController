@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "801338173558",
+    "project_id": "prz-rov-controller",
+    "storage_bucket": "prz-rov-controller.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801338173558:android:3d111b8b78a730a7529757",
+        "android_client_info": {
+          "package_name": "com.prz.rov_controller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYQ2VUstaKMWJNhUcTUxehNKl43UTAtjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

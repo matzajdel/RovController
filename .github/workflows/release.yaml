@@ -49,12 +49,6 @@ jobs:
       - name: Generate platform folders
         run: flutter create .
 
-      - name: Decode Keystore
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-        run: |
-          echo $KEYSTORE_BASE64 | base64 --decode > android/app/upload-keystore.jks
-
       - name: Create key.properties
         env:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
